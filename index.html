@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>HYPER GARAGE KHI | Ultimate Automotive Performance</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Plus Jakarta Sans', 'sans-serif'] },
+                    colors: {
+                        neonOrange: '#ff6600',
+                        amberGlow: '#f59e0b',
+                        darkBg: '#050508',
+                        cardBg: '#0c0c12',
+                        borderCol: '#1f1e29'
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 2.5s infinite',
+                        'float': 'float 3s ease-in-out infinite',
+                        'scanline': 'scanline 4s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%, 100%': { boxShadow: '0 0 15px rgba(255, 102, 0, 0.3)' },
+                            '50%': { boxShadow: '0 0 30px rgba(255, 102, 0, 0.7)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-6px)' },
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(1000%)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background-color: #050508; -webkit-tap-highlight-color: transparent; }
+        .glass-panel { background: rgba(12, 12, 18, 0.88); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .glass-card { background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%); border: 1px solid rgba(255, 255, 255, 0.08); transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+        .glass-card:hover { border-color: rgba(255, 102, 0, 0.6); transform: translateY(-4px); box-shadow: 0 14px 35px -10px rgba(255, 102, 0, 0.35); }
+        .neon-glow-orange { box-shadow: 0 0 25px rgba(255, 102, 0, 0.5); }
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+        .orange-gradient-text { background: linear-gradient(135deg, #ff6600 0%, #f59e0b 50%, #ff8800 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    </style>
+</head>
+<body class="text-slate-100 font-sans pb-28 antialiased selection:bg-neonOrange selection:text-black">
+
+    <!-- AMBIENT ORANGE GLOW SPHERES -->
+    <div class="fixed top-0 left-1/2 -translate-x-1/2 w-[400px] h-[400px] bg-neonOrange/10 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow"></div>
+    <div class="fixed bottom-10 right-0 w-[350px] h-[350px] bg-amberGlow/10 rounded-full blur-[150px] pointer-events-none -z-10"></div>
+
+    <!-- TOP HEADER -->
+    <header class="sticky top-0 z-50 glass-panel border-b border-white/10 px-4 py-3">
+        <div class="max-w-md mx-auto flex items-center justify-between">
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('home')">
+                <div class="relative w-11 h-11 bg-gradient-to-tr from-neonOrange via-amberGlow to-amber-600 rounded-2xl p-[1.5px] shadow-lg shadow-neonOrange/30">
+                    <div class="w-full h-full bg-darkBg rounded-[14px] flex items-center justify-center text-neonOrange overflow-hidden relative">
+                        <i class="fa-solid fa-car text-xl transform -skew-x-12 text-neonOrange"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center space-x-1.5">
+                        <span class="text-lg font-black tracking-tighter text-white">HYPER<span class="text-neonOrange">GARAGE</span></span>
+                        <span class="text-[9px] bg-neonOrange/20 text-neonOrange border border-neonOrange/40 px-1.5 py-0.5 rounded-full font-black">KHI</span>
+                    </div>
+                    <p class="text-[9px] text-slate-400 font-bold tracking-widest uppercase">Automotive Mobility Hub</p>
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-2">
+                <button onclick="openCartModal()" class="relative bg-cardBg border border-borderCol p-2.5 rounded-2xl text-slate-300 hover:text-white transition">
+                    <i class="fa-solid fa-cart-shopping text-sm"></i>
+                    <span id="cart-badge" class="absolute -top-1 -right-1 bg-neonOrange text-black text-[10px] w-4.5 h-4.5 rounded-full flex items-center justify-center font-black shadow-md shadow-neonOrange/50">0</span>
+                </button>
+                <a href="tel:1122" class="bg-gradient-to-r from-neonOrange to-amber-600 text-black p-2.5 rounded-2xl text-xs font-bold flex items-center justify-center shadow-lg shadow-neonOrange/40 active:scale-95 transition">
+                    <i class="fa-solid fa-phone-volume"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN APP CONTAINER -->
+    <main class="max-w-md mx-auto px-4 pt-4">
+
+        <!-- ================= TAB 1: HOME (LONG & FEATURE RICH) ================= -->
+        <section id="tab-home" class="tab-content space-y-6">
+            
+            <!-- High Octane Car Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl group">
+                <div class="h-64 w-full relative">
+                    <img src="https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=800&q=80" alt="Supercar Garage" class="w-full h-full object-cover group-hover:scale-105 transition duration-700">
+                    <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/60 to-transparent"></div>
+                </div>
+
+                <div class="absolute bottom-0 left-0 right-0 p-5 space-y-3">
+                    <span class="inline-flex items-center space-x-1.5 bg-neonOrange/20 backdrop-blur-md border border-neonOrange/40 px-3 py-1 rounded-full text-[10px] font-black text-neonOrange uppercase">
+                        <span class="w-1.5 h-1.5 rounded-full bg-neonOrange animate-ping"></span>
+                        <span>Karachi 24/7 Car Rescue Active</span>
+                    </span>
+
+                    <h1 class="text-2xl font-black text-white leading-tight">
+                        KARACHI'S ULTIMATE <br>
+                        <span class="orange-gradient-text">HYPER AUTOMOTIVE</span> HUB
+                    </h1>
+
+                    <p class="text-xs text-slate-300 leading-relaxed line-clamp-2">
+                        Nearby mechanics directory, AI error diagnostic scanner, smart mechanic chat, mobile puncture rescue, and high-performance car parts.
+                    </p>
+
+                    <div class="grid grid-cols-2 gap-2.5 pt-1">
+                        <button onclick="switchTab('chat')" class="bg-gradient-to-r from-neonOrange to-amber-600 text-black font-black py-3 rounded-2xl text-xs flex items-center justify-center space-x-2 shadow-lg shadow-neonOrange/40 active:scale-95 transition">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>Smart Mechanic Chat</span>
+                        </button>
+                        <button onclick="switchTab('mechanics')" class="glass-card text-slate-200 font-bold py-3 rounded-2xl text-xs flex items-center justify-center active:scale-95 transition border border-white/10">
+                            <i class="fa-solid fa-location-dot mr-1.5 text-neonOrange"></i>
+                            <span>Find Mechanics</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Telemetry & Car Health Gauge Widget -->
+            <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-black text-white flex items-center">
+                        <i class="fa-solid fa-gauge-high text-neonOrange mr-2"></i>Live Telemetry Diagnostics
+                    </span>
+                    <span class="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2 py-0.5 rounded-full font-bold">STABLE</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2">
+                    <div class="bg-cardBg p-2.5 rounded-2xl border border-borderCol text-center">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase">Engine Temp</p>
+                        <p class="text-xs font-black text-emerald-400 mt-0.5">89°C</p>
+                    </div>
+                    <div class="bg-cardBg p-2.5 rounded-2xl border border-borderCol text-center">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase">Battery Volt</p>
+                        <p class="text-xs font-black text-cyan-400 mt-0.5">14.1 V</p>
+                    </div>
+                    <div class="bg-cardBg p-2.5 rounded-2xl border border-borderCol text-center">
+                        <p class="text-[9px] text-slate-400 font-bold uppercase">Oil Quality</p>
+                        <p class="text-xs font-black text-amber-400 mt-0.5">95%</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW FEATURE 1: AI OBD-II DIAGNOSTIC ERROR CODE SCANNER -->
+            <div class="glass-panel p-5 rounded-3xl border border-neonOrange/30 space-y-4 relative overflow-hidden">
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 bg-neonOrange/20 border border-neonOrange/40 text-neonOrange rounded-2xl flex items-center justify-center font-bold text-lg">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-black text-white">AI Engine Code Diagnostic</h3>
+                        <p class="text-[10px] text-slate-400">Enter OBD-II error code (e.g., P0300, P0420, P0171)</p>
+                    </div>
+                </div>
+
+                <div class="flex space-x-2">
+                    <input type="text" id="obd-input" placeholder="e.g. P0300" class="flex-1 px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-xs text-white uppercase outline-none focus:border-neonOrange">
+                    <button onclick="runOBDScan()" class="bg-gradient-to-r from-neonOrange to-amber-600 text-black font-black px-4 py-2.5 rounded-xl text-xs shadow-md shadow-neonOrange/30 active:scale-95 transition">
+                        Scan Code
+                    </button>
+                </div>
+
+                <div id="obd-result" class="hidden bg-darkBg/90 p-3.5 rounded-2xl border border-borderCol text-xs space-y-1.5">
+                    <div class="flex justify-between font-bold">
+                        <span id="obd-code-title" class="text-neonOrange">P0300 - Random Misfire</span>
+                        <span id="obd-severity" class="text-amber-400">Medium Risk</span>
+                    </div>
+                    <p id="obd-desc" class="text-slate-300 text-[11px]">Spark plug failure or ignition coil circuit error detected in engine cylinder.</p>
+                    <p id="obd-fix" class="text-emerald-400 font-bold text-[10px]"><i class="fa-solid fa-wrench mr-1"></i>Recommended Fix: Spark Plug Swap & ECU Reset</p>
+                </div>
+            </div>
+
+            <!-- Categories Grid -->
+            <div>
+                <h3 class="text-xs font-black text-slate-400 tracking-wider uppercase mb-3 px-1">Garage Services</h3>
+                <div class="grid grid-cols-2 gap-3">
+                    <div onclick="switchTab('services')" class="glass-card p-4 rounded-3xl cursor-pointer">
+                        <div class="w-10 h-10 bg-neonOrange/10 text-neonOrange rounded-2xl flex items-center justify-center text-lg mb-3 border border-neonOrange/20">
+                            <i class="fa-solid fa-gears"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-white">Car Services</h4>
+                        <p class="text-slate-400 text-[10px] mt-0.5">Tuning, Oil & Diagnostics</p>
+                    </div>
+
+                    <div onclick="switchTab('products')" class="glass-card p-4 rounded-3xl cursor-pointer">
+                        <div class="w-10 h-10 bg-amber-500/10 text-amber-400 rounded-2xl flex items-center justify-center text-lg mb-3 border border-amber-500/20">
+                            <i class="fa-solid fa-spray-can-sparkles"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-white">Parts & Gear</h4>
+                        <p class="text-slate-400 text-[10px] mt-0.5">Turbos, Oils & Detailing</p>
+                    </div>
+
+                    <div onclick="switchTab('mechanics')" class="glass-card p-4 rounded-3xl cursor-pointer">
+                        <div class="w-10 h-10 bg-yellow-500/10 text-yellow-400 rounded-2xl flex items-center justify-center text-lg mb-3 border border-yellow-500/20">
+                            <i class="fa-solid fa-map-location-dot"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-white">Karachi Garages</h4>
+                        <p class="text-slate-400 text-[10px] mt-0.5">DHA, Gulshan & Faisal</p>
+                    </div>
+
+                    <div onclick="switchTab('chat')" class="glass-card p-4 rounded-3xl cursor-pointer border border-neonOrange/40">
+                        <div class="w-10 h-10 bg-neonOrange text-black rounded-2xl flex items-center justify-center text-lg mb-3 shadow-md shadow-neonOrange/50">
+                            <i class="fa-solid fa-comments"></i>
+                        </div>
+                        <h4 class="font-bold text-sm text-white">Mechanic Support</h4>
+                        <p class="text-slate-400 text-[10px] mt-0.5">Smart Interactive Chat</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- NEW FEATURE 2: KARACHI LIVE FUEL PRICE TICKER & CALCULATOR -->
+            <div class="glass-panel p-4 rounded-3xl border border-white/10 space-y-3">
+                <div class="flex justify-between items-center">
+                    <span class="text-xs font-black text-white flex items-center">
+                        <i class="fa-solid fa-gas-pump text-neonOrange mr-2"></i>Karachi Fuel Ticker
+                    </span>
+                    <span class="text-[9px] text-slate-400 font-mono">Updated Today</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2 text-xs">
+                    <div class="bg-cardBg p-2.5 rounded-2xl border border-borderCol flex justify-between items-center">
+                        <span class="text-slate-400 font-bold">Petrol</span>
+                        <span class="font-black text-neonOrange">Rs. 278.40 /L</span>
+                    </div>
+                    <div class="bg-cardBg p-2.5 rounded-2xl border border-borderCol flex justify-between items-center">
+                        <span class="text-slate-400 font-bold">Hi-Octane</span>
+                        <span class="font-black text-amber-400">Rs. 295.10 /L</span>
+                    </div>
+                </div>
+
+                <!-- Fuel Expense Quick Estimator -->
+                <div class="pt-2 border-t border-white/5 space-y-2">
+                    <p class="text-[10px] text-slate-400 font-bold">Quick Fuel Cost Estimator:</p>
+                    <div class="flex space-x-2">
+                        <input type="number" id="fuel-liters" placeholder="Liters (e.g. 30)" oninput="calcFuelCost()" class="w-1/2 px-3 py-2 bg-darkBg border border-borderCol rounded-xl text-xs text-white outline-none focus:border-neonOrange">
+                        <div class="w-1/2 bg-cardBg border border-borderCol rounded-xl px-3 py-2 flex items-center justify-between text-xs font-black text-emerald-400">
+                            <span>Cost:</span>
+                            <span id="fuel-total">Rs. 0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Emergency Banner -->
+            <div class="bg-gradient-to-r from-amber-950/60 to-darkBg border border-neonOrange/40 p-4 rounded-3xl flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="w-9 h-9 bg-neonOrange text-black rounded-xl flex items-center justify-center text-sm font-bold shadow-md">
+                        <i class="fa-solid fa-car-burst"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-xs text-white">Flat Tyre / Battery Dead?</h4>
+                        <p class="text-[10px] text-slate-400">Mobile vulcanizer on standby in KHI.</p>
+                    </div>
+                </div>
+                <button onclick="switchTab('mechanics')" class="bg-neonOrange text-black font-extrabold px-3 py-2 rounded-xl text-[10px] uppercase shadow">SOS Call</button>
+            </div>
+        </section>
+
+        <!-- ================= TAB 2: SERVICES ================= -->
+        <section id="tab-services" class="tab-content hidden space-y-4">
+            <div class="flex justify-between items-center px-1">
+                <h2 class="text-lg font-black text-white">Automotive Services</h2>
+                <span class="text-[10px] bg-cardBg border border-borderCol text-slate-400 px-2.5 py-1 rounded-full">Pro Certified</span>
+            </div>
+            <div id="services-grid" class="space-y-3"></div>
+        </section>
+
+        <!-- ================= TAB 3: PRODUCTS STORE ================= -->
+        <section id="tab-products" class="tab-content hidden space-y-4">
+            <div class="space-y-3">
+                <h2 class="text-lg font-black text-white px-1">Auto Parts & Detailing Gear</h2>
+                <input type="text" id="product-search" placeholder="Search headlights, turbos, oil..." oninput="filterProducts()" class="w-full px-4 py-3 bg-cardBg border border-borderCol rounded-2xl text-xs text-white outline-none focus:border-neonOrange transition">
+            </div>
+            <div id="products-grid" class="grid grid-cols-2 gap-3"></div>
+        </section>
+
+        <!-- ================= TAB 4: MECHANICS DIRECTORY ================= -->
+        <section id="tab-mechanics" class="tab-content hidden space-y-4">
+            <div class="space-y-3">
+                <h2 class="text-lg font-black text-white px-1">Karachi Garages & SOS</h2>
+                <select id="location-filter" onchange="filterMechanics()" class="w-full px-4 py-3 bg-cardBg border border-borderCol text-white rounded-2xl text-xs outline-none focus:border-neonOrange transition">
+                    <option value="all">All Karachi Zones</option>
+                    <option value="DHA">DHA & Clifton</option>
+                    <option value="Shahrah-e-Faisal">Shahrah-e-Faisal</option>
+                    <option value="Gulshan">Gulshan-e-Iqbal</option>
+                    <option value="North Nazimabad">North Nazimabad</option>
+                </select>
+            </div>
+            <div id="mechanics-grid" class="space-y-3"></div>
+        </section>
+
+        <!-- ================= TAB 5: SMART MECHANIC CHAT ================= -->
+        <section id="tab-chat" class="tab-content hidden space-y-4">
+            <div class="glass-panel rounded-3xl border border-white/10 overflow-hidden shadow-2xl flex flex-col h-[520px]">
+                <div class="p-3.5 bg-cardBg border-b border-borderCol flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="relative w-9 h-9 rounded-xl overflow-hidden border border-neonOrange/40">
+                            <img id="active-chat-img" src="" class="w-full h-full object-cover">
+                        </div>
+                        <div>
+                            <h4 id="active-chat-name" class="font-bold text-white text-xs">Select Mechanic</h4>
+                            <p id="active-chat-status" class="text-[9px] text-slate-400">Interactive Assistant Ready</p>
+                        </div>
+                    </div>
+                    <span class="text-[9px] bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 px-2.5 py-0.5 rounded-full font-bold">ONLINE</span>
+                </div>
+
+                <div id="chat-mechanics-list" class="p-2.5 bg-darkBg/60 border-b border-borderCol flex space-x-2 overflow-x-auto hide-scroll"></div>
+
+                <div id="chat-messages" class="flex-1 p-3.5 space-y-3 overflow-y-auto text-xs"></div>
+
+                <form onsubmit="sendMessage(event)" class="p-3 bg-cardBg border-t border-borderCol flex space-x-2">
+                    <input type="text" id="chat-input" placeholder="Ask mechanic (e.g. puncture price, engine noise)..." class="flex-1 px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-xs text-white outline-none focus:border-neonOrange">
+                    <button type="submit" class="bg-neonOrange text-black font-bold px-4 py-2.5 rounded-xl text-xs shadow-md shadow-neonOrange/40">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- ================= TAB 6: BOOKING ================= -->
+        <section id="tab-booking" class="tab-content hidden space-y-4">
+            <div class="glass-panel p-5 rounded-3xl border border-white/10 space-y-4">
+                <div class="text-center space-y-1">
+                    <h2 class="text-lg font-black text-white">Book Service Appointment</h2>
+                    <p class="text-slate-400 text-[10px]">Schedule your garage visit in Karachi.</p>
+                </div>
+                <form id="booking-form" onsubmit="handleBookingSubmit(event)" class="space-y-3 text-xs">
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Your Name</label>
+                        <input type="text" id="book-name" required placeholder="Ali Ahmed" class="w-full px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-white outline-none focus:border-neonOrange">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Phone Number</label>
+                        <input type="tel" id="book-phone" required placeholder="0300-1234567" class="w-full px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-white outline-none focus:border-neonOrange">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Select Service</label>
+                        <select id="book-service-type" class="w-full px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-white outline-none focus:border-neonOrange">
+                            <option value="Periodic Engine Maintenance">Periodic Engine Maintenance</option>
+                            <option value="OBD Digital Computer Tuning">OBD Computer Tuning</option>
+                            <option value="AC Climate Servicing">AC Climate Servicing</option>
+                            <option value="Mobile Puncture Rescue">Mobile Puncture Service</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-300 mb-1">Car Model</label>
+                        <input type="text" id="book-car" required placeholder="Honda Civic / Toyota Corolla" class="w-full px-3.5 py-2.5 bg-darkBg border border-borderCol rounded-xl text-white outline-none focus:border-neonOrange">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-neonOrange to-amber-600 text-black font-black py-3 rounded-xl text-xs uppercase shadow-lg shadow-neonOrange/40">Confirm Appointment</button>
+                </form>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FLOATING BOTTOM NAVIGATION BAR -->
+    <nav class="fixed bottom-0 left-0 right-0 z-50 glass-panel border-t border-white/10 px-4 py-2.5">
+        <div class="max-w-md mx-auto flex justify-between items-center text-[10px]">
+            <button onclick="switchTab('home')" id="nav-home" class="nav-link flex flex-col items-center text-neonOrange font-black space-y-1 transition">
+                <i class="fa-solid fa-house text-base"></i>
+                <span>Home</span>
+            </button>
+            <button onclick="switchTab('services')" id="nav-services" class="nav-link flex flex-col items-center text-slate-400 hover:text-white space-y-1 transition">
+                <i class="fa-solid fa-gears text-base"></i>
+                <span>Services</span>
+            </button>
+            <button onclick="switchTab('products')" id="nav-products" class="nav-link flex flex-col items-center text-slate-400 hover:text-white space-y-1 transition">
+                <i class="fa-solid fa-spray-can-sparkles text-base"></i>
+                <span>Store</span>
+            </button>
+            <button onclick="switchTab('mechanics')" id="nav-mechanics" class="nav-link flex flex-col items-center text-slate-400 hover:text-white space-y-1 transition">
+                <i class="fa-solid fa-map-location-dot text-base"></i>
+                <span>Garages</span>
+            </button>
+            <button onclick="switchTab('chat')" id="nav-chat" class="nav-link flex flex-col items-center text-slate-400 hover:text-white space-y-1 transition">
+                <i class="fa-solid fa-comments text-base"></i>
+                <span>Chat</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- SHOPPING CART MODAL -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 hidden flex justify-end">
+        <div class="bg-cardBg w-full max-w-sm h-full border-l border-borderCol flex flex-col shadow-2xl">
+            <div class="p-4 bg-darkBg border-b border-borderCol flex justify-between items-center">
+                <h3 class="font-black text-sm text-white"><i class="fa-solid fa-cart-shopping text-neonOrange mr-2"></i>CART ITEMS</h3>
+                <button onclick="closeCartModal()" class="text-slate-400 hover:text-white"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div id="cart-items-container" class="flex-1 overflow-y-auto p-4 space-y-3"></div>
+            <div class="p-4 bg-darkBg border-t border-borderCol space-y-3">
+                <div class="flex justify-between font-black text-sm text-white"><span>Total:</span><span id="cart-total" class="text-neonOrange">Rs. 0</span></div>
+                <button onclick="checkoutCart()" class="w-full bg-neonOrange text-black font-black py-3 rounded-xl text-xs uppercase shadow-lg shadow-neonOrange/40">Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div id="toast" class="fixed bottom-20 left-1/2 -translate-x-1/2 glass-panel border border-neonOrange/60 text-white px-4 py-2.5 rounded-2xl shadow-2xl z-50 transform translate-y-32 transition-all duration-300 text-xs font-bold flex items-center space-x-2">
+        <i class="fa-solid fa-check text-neonOrange"></i>
+        <span id="toast-message">Success!</span>
+    </div>
+
+    <!-- APPLICATION JAVASCRIPT LOGIC -->
+    <script>
+        const servicesData = [
+            { id: 1, name: "Periodic Engine Maintenance", price: "Rs. 15,000", time: "3 Hours", desc: "Synthetic engine oil swap, oil filter & air filter cleaning.", icon: "fa-oil-can" },
+            { id: 2, name: "OBD Digital Computer Tuning", price: "Rs. 4,500", time: "1.5 Hours", desc: "Computerized scanner diagnostic test & ECU sensor calibration.", icon: "fa-gauge-high" },
+            { id: 3, name: "AC Climate Servicing", price: "Rs. 6,000", time: "2 Hours", desc: "Refrigerant gas top-up & cooling coil flushing.", icon: "fa-snowflake" },
+            { id: 4, name: "Mobile Puncture Rescue", price: "Rs. 800", time: "30 Mins", desc: "On-site tubeless tyre puncture fix & digital pressure check.", icon: "fa-circle-dot" },
+            { id: 5, name: "Brake Pad Replacement", price: "Rs. 5,500", time: "1 Hour", desc: "Front/rear high-friction brake pad installation.", icon: "fa-car-burst" }
+        ];
+
+        const productsData = [
+            { id: 1, name: "Civic & Corolla Headlight Pair", price: 18000, rating: 4.9, image: "https://images.unsplash.com/photo-1542282088-72c9c27ed0cd?auto=format&fit=crop&w=400&q=80" },
+            { id: 2, name: "Ceramic Quick Detailer Spray", price: 2800, rating: 4.9, image: "https://images.unsplash.com/photo-1520340356584-f9917d1eea6f?auto=format&fit=crop&w=400&q=80" },
+            { id: 3, name: "Sports High-Flow Air Filter", price: 4500, rating: 4.8, image: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=400&q=80" },
+            { id: 4, name: "Digital Portable Tire Inflator", price: 6500, rating: 4.9, image: "https://images.unsplash.com/photo-1578844251758-2f71da64c96f?auto=format&fit=crop&w=400&q=80" }
+        ];
+
+        const mechanicsData = [
+            { 
+                id: 1, 
+                name: "Hyper Garage DHA Hub", 
+                location: "DHA", 
+                address: "Phase 6, Tauheed Commercial, KHI", 
+                phone: "0321-2345678", 
+                rating: 4.9, 
+                specialty: "EFI & Engine Tuning", 
+                status: "Online",
+                garageImg: "https://images.unsplash.com/photo-1617814076367-b759c7d7e738?auto=format&fit=crop&w=500&q=80",
+                avatarImg: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 2, 
+                name: "RedLine Pitstop", 
+                location: "Shahrah-e-Faisal", 
+                address: "Near FTC Building, KHI", 
+                phone: "0300-9876543", 
+                rating: 4.8, 
+                specialty: "Brakes & Quick Servicing", 
+                status: "Online",
+                garageImg: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?auto=format&fit=crop&w=500&q=80",
+                avatarImg: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 3, 
+                name: "Bismillah Auto Mechanics", 
+                location: "Gulshan", 
+                address: "Block 4, University Road, KHI", 
+                phone: "0333-5544332", 
+                rating: 4.7, 
+                specialty: "Suspension & Steering Setup", 
+                status: "Online",
+                garageImg: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=500&q=80",
+                avatarImg: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
+            },
+            { 
+                id: 4, 
+                name: "Super Auto Tech", 
+                location: "North Nazimabad", 
+                address: "Block H, Hyderi Market, KHI", 
+                phone: "0312-1122334", 
+                rating: 4.9, 
+                specialty: "Computer Scans & Wiring", 
+                status: "Online",
+                garageImg: "https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=500&q=80",
+                avatarImg: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=150&q=80"
+            }
+        ];
+
+        let cart = [];
+        let selectedMechanicForChat = mechanicsData[0];
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+            const activeTab = document.getElementById('tab-' + tabId);
+            if(activeTab) activeTab.classList.remove('hidden');
+
+            document.querySelectorAll('.nav-link').forEach(el => {
+                el.classList.remove('text-neonOrange', 'font-black');
+                el.classList.add('text-slate-400');
+            });
+
+            const activeNav = document.getElementById('nav-' + tabId);
+            if(activeNav) {
+                activeNav.classList.remove('text-slate-400');
+                activeNav.classList.add('text-neonOrange', 'font-black');
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderServices() {
+            const container = document.getElementById('services-grid');
+            if(!container) return;
+            container.innerHTML = servicesData.map(s => `
+                <div class="glass-card p-4 rounded-2xl flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-10 h-10 bg-neonOrange/10 text-neonOrange rounded-xl flex items-center justify-center font-bold text-base border border-neonOrange/20">
+                            <i class="fa-solid ${s.icon}"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-xs text-white">${s.name}</h4>
+                            <p class="text-[10px] text-slate-400">${s.price} • ${s.time}</p>
+                        </div>
+                    </div>
+                    <button onclick="selectService('${s.name}')" class="bg-neonOrange text-black font-extrabold px-3 py-1.5 rounded-xl text-[10px] shadow-md shadow-neonOrange/30">Book</button>
+                </div>
+            `).join('');
+        }
+
+        function selectService(name) {
+            switchTab('booking');
+            document.getElementById('book-service-type').value = name;
+        }
+
+        function renderProducts(filtered = productsData) {
+            const container = document.getElementById('products-grid');
+            if(!container) return;
+            container.innerHTML = filtered.map(p => `
+                <div class="glass-card rounded-2xl overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-32 bg-darkBg relative">
+                            <img src="${p.image}" class="w-full h-full object-cover">
+                            <span class="absolute top-1.5 right-1.5 glass-panel text-amber-400 px-1.5 py-0.5 rounded-full text-[9px] font-bold"><i class="fa-solid fa-star mr-0.5"></i>${p.rating}</span>
+                        </div>
+                        <div class="p-3">
+                            <h4 class="font-bold text-white text-[11px] line-clamp-1">${p.name}</h4>
+                            <p class="text-neonOrange font-extrabold text-xs mt-0.5">Rs. ${p.price}</p>
+                        </div>
+                    </div>
+                    <div class="p-3 pt-0">
+                        <button onclick="addToCart(${p.id})" class="w-full bg-cardBg hover:bg-neonOrange hover:text-black text-white font-bold py-1.5 rounded-xl text-[10px] transition border border-borderCol">Add to Cart</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterProducts() {
+            const q = document.getElementById('product-search').value.toLowerCase();
+            renderProducts(productsData.filter(p => p.name.toLowerCase().includes(q)));
+        }
+
+        function addToCart(id) {
+            const prod = productsData.find(p => p.id === id);
+            const item = cart.find(i => i.id === id);
+            if(item) item.qty++; else cart.push({...prod, qty: 1});
+            document.getElementById('cart-badge').innerText = cart.reduce((a,b)=>a+b.qty,0);
+            showToast(prod.name + ' added to cart!');
+        }
+
+        function openCartModal() {
+            const container = document.getElementById('cart-items-container');
+            if(cart.length === 0) {
+                container.innerHTML = `<p class="text-center text-slate-500 py-10 text-xs">Your cart is empty.</p>`;
+                document.getElementById('cart-total').innerText = 'Rs. 0';
+            } else {
+                container.innerHTML = cart.map(i => `
+                    <div class="flex justify-between items-center glass-panel p-2.5 rounded-xl text-xs">
+                        <div><h4 class="font-bold text-white">${i.name}</h4><p class="text-slate-400 text-[10px]">Rs. ${i.price} x ${i.qty}</p></div>
+                        <span class="font-bold text-neonOrange">Rs. ${i.price * i.qty}</span>
+                    </div>
+                `).join('');
+                document.getElementById('cart-total').innerText = 'Rs. ' + cart.reduce((a,b)=>a+(b.price*b.qty),0);
+            }
+            document.getElementById('cart-modal').classList.remove('hidden');
+        }
+
+        function closeCartModal() { document.getElementById('cart-modal').classList.add('hidden'); }
+
+        function checkoutCart() {
+            if(cart.length === 0) return;
+            alert('Order Confirmed! Delivery in Karachi within 24 Hours.');
+            cart = [];
+            document.getElementById('cart-badge').innerText = '0';
+            closeCartModal();
+            showToast('Order placed successfully!');
+        }
+
+        function renderMechanics(filtered = mechanicsData) {
+            const container = document.getElementById('mechanics-grid');
+            if(!container) return;
+            container.innerHTML = filtered.map(m => `
+                <div class="glass-card rounded-3xl overflow-hidden space-y-3 p-0">
+                    <div class="h-32 w-full relative">
+                        <img src="${m.garageImg}" class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-darkBg via-darkBg/30 to-transparent"></div>
+                        <span class="absolute top-2 left-2 text-[9px] font-black uppercase px-2.5 py-1 bg-neonOrange/90 text-black rounded-full backdrop-blur-md">${m.location}</span>
+                        <span class="absolute top-2 right-2 text-emerald-400 bg-emerald-950/80 border border-emerald-500/30 px-2 py-0.5 rounded-full text-[9px] font-bold backdrop-blur-md"><i class="fa-solid fa-circle text-[7px] mr-1 animate-pulse"></i>${m.status}</span>
+                    </div>
+                    
+                    <div class="px-4 pb-4 space-y-2">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-black text-white text-sm">${m.name}</h4>
+                            <span class="text-xs font-bold text-amber-400"><i class="fa-solid fa-star mr-1"></i>${m.rating}</span>
+                        </div>
+                        <p class="text-[10px] text-neonOrange font-semibold"><i class="fa-solid fa-wrench mr-1"></i>${m.specialty}</p>
+                        <p class="text-[10px] text-slate-400"><i class="fa-solid fa-location-dot text-slate-500 mr-1"></i>${m.address}</p>
+
+                        <div class="flex space-x-2 pt-2 border-t border-borderCol">
+                            <a href="tel:${m.phone}" class="flex-1 bg-cardBg hover:bg-slate-800 text-white font-bold text-center py-2 rounded-xl text-[10px] border border-borderCol flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-phone text-neonOrange"></i>
+                                <span>${m.phone}</span>
+                            </a>
+                            <button onclick="startChatWithMechanic(${m.id})" class="flex-1 bg-neonOrange hover:bg-amber-600 text-black font-extrabold py-2 rounded-xl text-[10px] shadow-md shadow-neonOrange/30 flex items-center justify-center space-x-1">
+                                <i class="fa-solid fa-comments"></i>
+                                <span>Chat Now</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterMechanics() {
+            const loc = document.getElementById('location-filter').value;
+            renderMechanics(loc === 'all' ? mechanicsData : mechanicsData.filter(m => m.location === loc));
+        }
+
+        function renderChatMechanicsSidebar() {
+            const container = document.getElementById('chat-mechanics-list');
+            if(!container) return;
+            container.innerHTML = mechanicsData.map(m => `
+                <button onclick="selectMechanicForChat(${m.id})" class="flex-shrink-0 px-3 py-1.5 rounded-xl text-[10px] font-bold transition border flex items-center space-x-1.5 ${selectedMechanicForChat?.id === m.id ? 'bg-neonOrange text-black border-neonOrange shadow-md shadow-neonOrange/40' : 'bg-cardBg text-slate-400 border-borderCol'}">
+                    <img src="${m.avatarImg}" class="w-4 h-4 rounded-full object-cover">
+                    <span>${m.name}</span>
+                </button>
+            `).join('');
+        }
+
+        function startChatWithMechanic(id) {
+            switchTab('chat');
+            selectMechanicForChat(id);
+        }
+
+        function selectMechanicForChat(id) {
+            selectedMechanicForChat = mechanicsData.find(m => m.id === id) || mechanicsData[0];
+            document.getElementById('active-chat-name').innerText = selectedMechanicForChat.name;
+            document.getElementById('active-chat-status').innerText = selectedMechanicForChat.specialty + " (" + selectedMechanicForChat.location + ")";
+            document.getElementById('active-chat-img').src = selectedMechanicForChat.avatarImg;
+            
+            document.getElementById('chat-messages').innerHTML = `
+                <div class="flex flex-col items-start space-y-1">
+                    <span class="text-[9px] text-slate-400">${selectedMechanicForChat.name}</span>
+                    <div class="glass-panel text-white p-2.5 rounded-2xl rounded-tl-none max-w-xs border border-white/10">
+                        Assalam-o-Alaikum! Main ${selectedMechanicForChat.name} se mechanic hoon. Gaadi ke masle ke hawale se puchein, main aapki madad karta hoon.
+                    </div>
+                </div>
+            `;
+            renderChatMechanicsSidebar();
+        }
+
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const msg = input.value.trim();
+            if(!msg) return;
+
+            const messagesBox = document.getElementById('chat-messages');
+            
+            messagesBox.innerHTML += `
+                <div class="flex flex-col items-end space-y-1">
+                    <span class="text-[9px] text-slate-400">You</span>
+                    <div class="bg-neonOrange text-black font-semibold p-2.5 rounded-2xl rounded-tr-none max-w-xs shadow-md shadow-neonOrange/30">
+                        ${msg}
+                    </div>
+                </div>
+            `;
+            input.value = '';
+            messagesBox.scrollTop = messagesBox.scrollHeight;
+
+            let replyText = "Ji bilkul, main samajh gaya hoon. Aap live location share kar sakte hain ya garage visit kar sakte hain.";
+            const textLower = msg.toLowerCase();
+
+            if (textLower.includes("puncture") || textLower.includes("tyre") || textLower.includes("tire") || textLower.includes("air")) {
+                replyText = "Mobile Puncture Service foran ready hai! On-site repair ke Rs. 800 charge hongay. Kya main mobile vulcanizer aapki current location par bhej doon?";
+            } else if (textLower.includes("oil") || textLower.includes("tuning") || textLower.includes("maintenance") || textLower.includes("service")) {
+                replyText = "General Periodic Maintenance mein Oil Change, Oil Filter, Air Filter check aur 40-point scan shamil hai. Charges Rs. 15,000 se start hotay hain.";
+            } else if (textLower.includes("ac") || textLower.includes("gas") || textLower.includes("cooling")) {
+                replyText = "AC Climate Servicing aur Gas Refill ke Rs. 6,000 hain. Aap Book tab se appointment schedule kar sakte hain.";
+            } else if (textLower.includes("location") || textLower.includes("kahan") || textLower.includes("address") || textLower.includes("where")) {
+                replyText = `Humara workshop ${selectedMechanicForChat.address} par waki hai. Call button se direct phone bhi kar sakte hain (${selectedMechanicForChat.phone}).`;
+            } else if (textLower.includes("price") || textLower.includes("cost") || textLower.includes("rate") || textLower.includes("charges")) {
+                replyText = "Aap humare Services section mein tamam packages ki live pricing aur duration detail dekh sakte hain!";
+            }
+
+            setTimeout(() => {
+                messagesBox.innerHTML += `
+                    <div class="flex flex-col items-start space-y-1">
+                        <span class="text-[9px] text-slate-400">${selectedMechanicForChat.name}</span>
+                        <div class="glass-panel text-white p-2.5 rounded-2xl rounded-tl-none max-w-xs border border-white/10">
+                            ${replyText}
+                        </div>
+                    </div>
+                `;
+                messagesBox.scrollTop = messagesBox.scrollHeight;
+            }, 1000);
+        }
+
+        // NEW FEATURE: OBD-II SCANNER SIMULATION LOGIC
+        function runOBDScan() {
+            const input = document.getElementById('obd-input').value.trim().toUpperCase();
+            const resultBox = document.getElementById('obd-result');
+            
+            if(!input) {
+                alert("Please enter an error code e.g., P0300!");
+                return;
+            }
+
+            const db = {
+                'P0300': { title: 'P0300 - Engine Misfire Detected', severity: 'High Risk', desc: 'Random or multiple cylinder engine misfire detected. Causes rough idling and poor fuel average.', fix: 'Spark plug swap, ignition coil test, fuel injector cleaning' },
+                'P0420': { title: 'P0420 - Catalytic Converter Below Threshold', severity: 'Medium Risk', desc: 'Catalytic converter efficiency failure or oxygen sensor malfunction.', fix: 'Cat-converter flush, O2 sensor calibration' },
+                'P0171': { title: 'P0171 - System Too Lean (Bank 1)', severity: 'Low Risk', desc: 'Too much air or not enough fuel entering engine combustion chamber.', fix: 'Clean MAF sensor, check vacuum lines' }
+            };
+
+            const data = db[input] || {
+                title: `${input} - Diagnostic Code Detected`,
+                severity: 'Check Required',
+                desc: 'Specific sensor fault logged in vehicle ECU telemetry.',
+                fix: 'Visit nearby workshop for OBD scanner reset and live diagnostics.'
+            };
+
+            document.getElementById('obd-code-title').innerText = data.title;
+            document.getElementById('obd-severity').innerText = data.severity;
+            document.getElementById('obd-desc').innerText = data.desc;
+            document.getElementById('obd-fix').innerText = 'Recommended Fix: ' + data.fix;
+
+            resultBox.classList.remove('hidden');
+        }
+
+        // NEW FEATURE: FUEL CALCULATION LOGIC
+        function calcFuelCost() {
+            const liters = parseFloat(document.getElementById('fuel-liters').value) || 0;
+            const rate = 278.40; // KHI Petrol Rate
+            const total = (liters * rate).toFixed(0);
+            document.getElementById('fuel-total').innerText = 'Rs. ' + total;
+        }
+
+        function handleBookingSubmit(e) {
+            e.preventDefault();
+            showToast('Slot Reserved Successfully!');
+            document.getElementById('booking-form').reset();
+            switchTab('home');
+        }
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-message').innerText = msg;
+            t.classList.remove('translate-y-32');
+            setTimeout(() => t.classList.add('translate-y-32'), 3000);
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderServices(); 
+            renderProducts(); 
+            renderMechanics(); 
+            selectMechanicForChat(1);
+        });
+    </script>
+</body>
+</html>
